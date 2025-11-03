@@ -14,11 +14,18 @@ COPY package*.json ./
 
 # Install dependencies with better caching
 # Use npm ci when a lockfile exists, otherwise fall back to npm install
+# RUN sh -c '\
+#   if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then \
+#     npm ci --only=production --no-cache --prefer-offline; \
+#   else \
+#     npm install --only=production --no-cache --prefer-offline; \
+#   fi'
+
 RUN sh -c '\
   if [ -f package-lock.json ] || [ -f npm-shrinkwrap.json ]; then \
-    npm ci --only=production --no-cache --prefer-offline; \
+    npm ci --no-cache --prefer-offline; \
   else \
-    npm install --only=production --no-cache --prefer-offline; \
+    npm install --no-cache --prefer-offline; \
   fi'
 
 # Copy source code
